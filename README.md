@@ -49,6 +49,10 @@ This might take a few time too, as it'll be loading server files into memory. Wh
 
 ## Additional information
 
+### What about the database?
+
+The database for this server is prepopulated with data from `sql` folder on the first time you run it. You can make changes to the database by accessing `http://localhost:8080` from any browser you like.
+
 ### Server logs
 
 When your server starts, you'll find a new folder named `logs` in the root folder of our project. Inside this folder you'll find logs for the three servers that are currently running. This may help you figure out any problem you may find during runtime.
