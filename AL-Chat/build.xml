@@ -27,6 +27,7 @@
 	<target name="compile" depends="init" description="Compile the source.">
 		<javac destdir="${build.classes}" optimize="on" debug="on"
 			nowarn="off" source="1.7" target="1.7" includeantruntime="false">
+			<compilerarg line="-encoding utf-8"/>
 			<src path="${src}" />
 			<classpath refid="classpath" />
 		</javac>
