@@ -23,7 +23,7 @@
 	</path>
 	<path id="classpath">
 		<fileset dir="${lib}">
-			<include name="*.jar"/>
+			<include name="*.jar" />
 		</fileset>
 	</path>
 

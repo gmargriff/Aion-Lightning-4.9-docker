@@ -1,0 +1,74 @@
+name: "aion49"
+services:
+  aion49-database:
+    container_name: aion49-database
+    image: mysql:5.7
+    networks:
+      aion49-network:
+        ipv4_address: 172.100.0.6
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+      - ./.mysql/:/var/lib/mysql
+    restart: ${SERVER_RESTART}
+    env_file:
+      - ./.env
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          'MYSQL_PWD=${MYSQL_ROOT_PASSWORD} mysqladmin ping'
+        ]
+      interval: 10s
+      timeout: 2s
+      retries: 10
+  phpmyadmin:
+    container_name: aion49-dbadmin
+    image: phpmyadmin
+    ports:
+      - 8080:80
+    restart: ${SERVER_RESTART}
+    environment:
+      - PMA_HOST=aion49-database
+      - PMA_USER=root
+      - PMA_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - UPLOAD_LIMIT=300M
+    profiles: []
+    env_file:
+      - ./.env
+    networks:
+      aion49-network:
+        ipv4_address: 172.100.0.7
+  aion49-server:
+    container_name: aion49-server
+    build: .
+    ports:
+      - "10241:10241"
+      - "9021:9021"
+      - "9014:9014"
+      - "7777:7777"
+      - "2106:2106"
+    volumes:
+      - "./:/aion/"
+    env_file:
+      - ".env"
+    depends_on:
+      aion49-database:
+        condition: service_healthy
+        restart: true
+    links:
+      - "aion49-database"
+    restart: ${SERVER_RESTART}
+    networks:
+      aion49-network:
+        ipv4_address: 172.100.0.8
+networks:
+  aion49-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.100.0.0/24
+          gateway: 172.100.0.1

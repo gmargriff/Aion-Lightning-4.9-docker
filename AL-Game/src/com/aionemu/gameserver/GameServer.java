@@ -177,7 +177,7 @@ public class GameServer {
         GeoService.getInstance().initializeGeo();
         System.gc();
         World.getInstance();
-        DropRegistrationService.getInstanzen();
+        DropRegistrationService.getInstance();
         Util.printSection("===========================");
         Util.printSection("==========Reinigung=========");
         GameServer gs = new GameServer();
