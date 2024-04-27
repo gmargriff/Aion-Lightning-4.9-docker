@@ -1,4 +1,5 @@
 /.mysql
 /*/build/
 /java
-.env
+/.env
+/logs

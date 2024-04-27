@@ -42,6 +42,13 @@ services:
     networks:
       aion49-network:
         ipv4_address: 172.100.0.7
+    depends_on:
+      aion49-database:
+        condition: service_healthy
+        restart: true
+      aion49-server:
+        condition: service_healthy
+        restart: true
   aion49-server:
     container_name: aion49-server
     build: .
@@ -52,7 +59,12 @@ services:
       - "7777:7777"
       - "2106:2106"
     volumes:
-      - "./:/aion/"
+      - "./AL-Chat/config:/aion/AL-Chat/build/dist/AL-Chat/config"
+      - "./AL-Game/config:/aion/AL-Game/build/dist/AL-Game/config"
+      - "./AL-Login/config:/aion/AL-Login/build/dist/AL-Login/config"
+      - "./logs/AL-Game:/aion/AL-Game/build/dist/AL-Game/log/"
+      - "./logs/AL-Chat:/aion/AL-Chat/build/dist/AL-Chat/log/"
+      - "./logs/AL-Login:/aion/AL-Login/build/dist/AL-Login/log/"
     env_file:
       - ".env"
     depends_on:
@@ -65,6 +77,10 @@ services:
     networks:
       aion49-network:
         ipv4_address: 172.100.0.8
+    healthcheck:
+      test: 'cat /aion/AL-Game/build/dist/AL-Game/log/console.log | grep "Connected to LoginServer"'
+      timeout: 10s
+      retries: 10
 networks:
   aion49-network:
     driver: bridge
