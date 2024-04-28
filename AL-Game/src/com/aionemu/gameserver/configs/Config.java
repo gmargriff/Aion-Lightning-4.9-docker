@@ -486,7 +486,7 @@ public class Config {
         try {
           String env = System.getenv(ENV_NAME);
           if(!env.isEmpty()) {
-            return env == "true";
+            return env.equals("true");
           } else {
             return defaultValue;
           }

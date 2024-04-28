@@ -134,7 +134,7 @@ public class Config {
             log.info("Loading: " + network + "/network.properties");
             ConfigurableProcessor.process(Config.class, props);
             log.info("Loading: " + network + "/svstats.properties");
-			ConfigurableProcessor.process(SvStatsConfig.class, props);
+			      ConfigurableProcessor.process(SvStatsConfig.class, props);
             log.info("Loading: " + network + "/commons.properties");
             ConfigurableProcessor.process(CommonsConfig.class, props);
             log.info("Loading: " + network + "/database.properties");
@@ -184,7 +184,7 @@ public class Config {
         try {
           String env = System.getenv(ENV_NAME);
           if(!env.isEmpty()) {
-            return env == "true";
+            return env.equals("true");
           } else {
             return defaultValue;
           }
