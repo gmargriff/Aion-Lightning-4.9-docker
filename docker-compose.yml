@@ -7,7 +7,7 @@ services:
       aion49-network:
         ipv4_address: ${DB_HOST}
     ports:
-      - ${DB_PORT}:${DB_PORT}
+      - ${DB_PORT}:3306
     environment:
       - MYSQL_ROOT_PASSWORD=${DB_PASS}
     volumes:
