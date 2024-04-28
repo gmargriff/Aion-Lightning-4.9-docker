@@ -66,6 +66,8 @@ services:
         restart: true
     links:
       - "aion49-database"
+    volumes:
+      - ./logs:/server_logs
     restart: ${SERVER_RESTART}
     networks:
       aion49-network:

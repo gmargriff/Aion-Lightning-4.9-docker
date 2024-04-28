@@ -7,7 +7,7 @@ PATH=$PATH:$JAVA_HOME/bin
 export JAVA_HOME
 export PATH
 
-for server in chatserver loginserver gameserver
+for server in chatserver loginserver gameserver logger
 do
     sh -c "./start_$server.sh" &
     sleep 10
