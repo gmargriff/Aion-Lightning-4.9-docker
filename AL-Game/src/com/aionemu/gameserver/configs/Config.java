@@ -32,6 +32,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Properties;
 
+import java.net.InetSocketAddress;
+
 /**
  * @author Nemesiss, SoulKeeper
  */
@@ -211,12 +213,80 @@ public class Config {
             log.info("Loading: " + network + "/network.properties");
             ConfigurableProcessor.process(NetworkConfig.class, networkProps);
 
+            override_configs();
+
         } catch (Exception e) {
             log.error("Can't load gameserver configuration: ", e);
             throw new Error("Can't load gameserver configuration: ", e);
         }
 
         IPConfig.load();
+    }
+
+    public static void override_configs()
+    {
+        // Network Config Overrides
+        NetworkConfig.GAME_PORT = EnvToInt("GAMESERVER_PORT", NetworkConfig.GAME_PORT);
+        NetworkConfig.GAME_BIND_ADDRESS = EnvToString("GAMESERVER_BIND_ADDRESS", NetworkConfig.GAME_BIND_ADDRESS);
+        NetworkConfig.MAX_ONLINE_PLAYERS = EnvToInt("MAX_ONLINE_PLAYERS", NetworkConfig.MAX_ONLINE_PLAYERS);
+        NetworkConfig.LOGIN_ADDRESS = new InetSocketAddress("localhost", EnvToInt("GAME_PORT", 9014));
+        
+
+        // Custom Config Overrides
+        CustomConfig.CHALLENGE_TASKS_ENABLED = EnvToBoolean("CHALLENGE_TASKS_ENABLED", CustomConfig.CHALLENGE_TASKS_ENABLED);
+        CustomConfig.FATIGUE_SYSTEM_ENABLED = EnvToBoolean("FATIGUE_SYSTEM_ENABLED", CustomConfig.FATIGUE_SYSTEM_ENABLED);
+        CustomConfig.PREMIUM_NOTIFY = EnvToBoolean("PREMIUM_NOTIFY", CustomConfig.PREMIUM_NOTIFY);
+        CustomConfig.SPEAKING_BETWEEN_FACTIONS = EnvToBoolean("SPEAKING_BETWEEN_FACTIONS", CustomConfig.SPEAKING_BETWEEN_FACTIONS);
+        CustomConfig.ENABLE_SIMPLE_2NDCLASS = EnvToBoolean("ENABLE_SIMPLE_2NDCLASS", CustomConfig.ENABLE_SIMPLE_2NDCLASS);
+        CustomConfig.SKILL_CHAIN_TRIGGERRATE = EnvToBoolean("SKILL_CHAIN_TRIGGERRATE", CustomConfig.SKILL_CHAIN_TRIGGERRATE);
+        CustomConfig.LEVEL_TO_WHISPER = EnvToInt("LEVEL_TO_WHISPER", CustomConfig.LEVEL_TO_WHISPER);
+        CustomConfig.LEVEL_TO_SEARCH = EnvToInt("LEVEL_TO_SEARCH", CustomConfig.LEVEL_TO_SEARCH);
+        CustomConfig.UNSTUCK_DELAY = EnvToInt("UNSTUCK_DELAY", CustomConfig.UNSTUCK_DELAY);
+        CustomConfig.DYE_PRICE = EnvToInt("DYE_PRICE", CustomConfig.DYE_PRICE);
+        
+        // GSConfig Overrides
+        GSConfig.LOGINSERVER_NAME = EnvToString("LOGINSERVER_DATABASE", GSConfig.LOGINSERVER_NAME);
+        GSConfig.SERVER_COUNTRY_CODE = EnvToInt("SERVER_COUNTRY_CODE", GSConfig.SERVER_COUNTRY_CODE);
+        GSConfig.PLAYER_MAX_LEVEL = EnvToInt("PLAYER_MAX_LEVEL", GSConfig.PLAYER_MAX_LEVEL);
+        GSConfig.SERVER_MOTD_DISPLAYREV = EnvToBoolean("SERVER_MOTD_DISPLAYREV", GSConfig.SERVER_MOTD_DISPLAYREV);
+        GSConfig.CHARACTER_CREATION_MODE = EnvToInt("CHARACTER_CREATION_MODE", GSConfig.CHARACTER_CREATION_MODE);
+        GSConfig.LANG = EnvToString("SERVER_LANG", GSConfig.LANG);
+        GSConfig.TIME_ZONE_ID = EnvToString("TIME_ZONE_ID", GSConfig.TIME_ZONE_ID);
+        GSConfig.ENABLE_CHAT_SERVER = EnvToBoolean("ENABLE_CHAT_SERVER", GSConfig.ENABLE_CHAT_SERVER);
+        
+        // Rates Overrides
+        RateConfig.XP_RATE = EnvToFloat("XP_RATE", RateConfig.XP_RATE);
+        RateConfig.PREMIUM_XP_RATE = EnvToFloat("PREMIUM_XP_RATE", RateConfig.PREMIUM_XP_RATE);
+        RateConfig.VIP_XP_RATE = EnvToFloat("VIP_XP_RATE", RateConfig.VIP_XP_RATE);
+        RateConfig.GROUPXP_RATE = EnvToFloat("GROUPXP_RATE", RateConfig.GROUPXP_RATE);
+        RateConfig.PREMIUM_GROUPXP_RATE = EnvToFloat("PREMIUM_GROUPXP_RATE", RateConfig.PREMIUM_GROUPXP_RATE);
+        RateConfig.VIP_GROUPXP_RATE = EnvToFloat("VIP_GROUPXP_RATE", RateConfig.VIP_GROUPXP_RATE);
+        RateConfig.QUEST_XP_RATE = EnvToFloat("QUEST_XP_RATE", RateConfig.QUEST_XP_RATE);
+        RateConfig.PREMIUM_QUEST_XP_RATE = EnvToFloat("PREMIUM_QUEST_XP_RATE", RateConfig.PREMIUM_QUEST_XP_RATE);
+        RateConfig.VIP_QUEST_XP_RATE = EnvToFloat("VIP_QUEST_XP_RATE", RateConfig.VIP_QUEST_XP_RATE);
+        RateConfig.GATHERING_XP_RATE = EnvToFloat("GATHERING_XP_RATE", RateConfig.GATHERING_XP_RATE);
+        RateConfig.PREMIUM_GATHERING_XP_RATE = EnvToFloat("PREMIUM_GATHERING_XP_RATE", RateConfig.PREMIUM_GATHERING_XP_RATE);
+        RateConfig.VIP_GATHERING_XP_RATE = EnvToFloat("VIP_GATHERING_XP_RATE", RateConfig.VIP_GATHERING_XP_RATE);
+        RateConfig.CRAFTING_XP_RATE = EnvToFloat("CRAFTING_XP_RATE", RateConfig.CRAFTING_XP_RATE);
+        RateConfig.PREMIUM_CRAFTING_XP_RATE = EnvToFloat("PREMIUM_CRAFTING_XP_RATE", RateConfig.PREMIUM_CRAFTING_XP_RATE);
+        RateConfig.VIP_CRAFTING_XP_RATE = EnvToFloat("VIP_CRAFTING_XP_RATE", RateConfig.VIP_CRAFTING_XP_RATE);
+        RateConfig.QUEST_KINAH_RATE = EnvToFloat("QUEST_KINAH_RATE", RateConfig.QUEST_KINAH_RATE);
+        RateConfig.PREMIUM_QUEST_KINAH_RATE = EnvToFloat("PREMIUM_QUEST_KINAH_RATE", RateConfig.PREMIUM_QUEST_KINAH_RATE);
+        RateConfig.VIP_QUEST_KINAH_RATE = EnvToFloat("VIP_QUEST_KINAH_RATE", RateConfig.VIP_QUEST_KINAH_RATE);
+        RateConfig.QUEST_AP_RATE = EnvToFloat("QUEST_AP_RATE", RateConfig.QUEST_AP_RATE);
+        RateConfig.PREMIUM_QUEST_AP_RATE = EnvToFloat("PREMIUM_QUEST_AP_RATE", RateConfig.PREMIUM_QUEST_AP_RATE);
+        RateConfig.VIP_QUEST_AP_RATE = EnvToFloat("VIP_QUEST_AP_RATE", RateConfig.VIP_QUEST_AP_RATE);
+        RateConfig.QUEST_GP_RATE = EnvToFloat("QUEST_GP_RATE", RateConfig.QUEST_GP_RATE);
+        RateConfig.PREMIUM_QUEST_GP_RATE = EnvToFloat("PREMIUM_QUEST_GP_RATE", RateConfig.PREMIUM_QUEST_GP_RATE);
+        RateConfig.VIP_QUEST_GP_RATE = EnvToFloat("VIP_QUEST_GP_RATE", RateConfig.VIP_QUEST_GP_RATE);
+        RateConfig.DROP_RATE = EnvToFloat("DROP_RATE", RateConfig.DROP_RATE);
+        RateConfig.PREMIUM_DROP_RATE = EnvToFloat("PREMIUM_DROP_RATE", RateConfig.PREMIUM_DROP_RATE);
+        RateConfig.VIP_DROP_RATE = EnvToFloat("VIP_DROP_RATE", RateConfig.VIP_DROP_RATE);
+        
+        // DB Overrides
+        DatabaseConfig.DATABASE_URL = "jdbc:mysql://" + EnvToString("DB_HOST", "localhost") + ":" + EnvToInt("DB_PORT", 3306) + "/" + EnvToString("GAMESERVER_DATABASE", "al_server_gs") + "?useUnicode=true&characterEncoding=UTF-8";
+        DatabaseConfig.DATABASE_USER = EnvToString("DB_USER", DatabaseConfig.DATABASE_USER);
+        DatabaseConfig.DATABASE_PASSWORD = EnvToString("DB_PASS", DatabaseConfig.DATABASE_PASSWORD);
     }
 
     /**
@@ -372,9 +442,56 @@ public class Config {
 
             ConfigurableProcessor.process(WorldConfig.class, mainProps);
             log.info("Reload: " + main + "/world.properties");
+
+           override_configs();
+
         } catch (Exception e) {
             log.error("Can't reload configuration: ", e);
             throw new Error("Can't reload configuration: ", e);
+        }
+    }
+
+    public static int EnvToInt(String ENV_NAME, int defaultValue) {
+        try {
+          String env = System.getenv(ENV_NAME);
+          return Integer.parseInt(env);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    public static float EnvToFloat(String ENV_NAME, float defaultValue) {
+        try {
+          String env = System.getenv(ENV_NAME);
+          return Float.parseFloat(env);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    public static String EnvToString(String ENV_NAME, String defaultValue) {
+        try {
+          String env = System.getenv(ENV_NAME);
+          if(!env.isEmpty()) {
+            return env;
+          } else {
+            return defaultValue;
+          }
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    public static boolean EnvToBoolean(String ENV_NAME, boolean defaultValue) {
+        try {
+          String env = System.getenv(ENV_NAME);
+          if(!env.isEmpty()) {
+            return env == "true";
+          } else {
+            return defaultValue;
+          }
+        } catch (Exception e) {
+            return defaultValue;
         }
     }
 }

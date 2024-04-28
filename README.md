@@ -53,17 +53,15 @@ This might take a few time too, as it'll be loading server files into memory. Wh
 
 The database for this server is prepopulated with data from `sql` folder on the first time you run it. You can make changes to the database by accessing `http://localhost:8080` from any browser you like.
 
-### Server logs
-
-When your server starts, you'll find a new folder named `logs` in the root folder of our project. Inside this folder you'll find logs for the three servers that are currently running. This may help you figure out any problem you may find during runtime.
-
 ### Server configuration
 
-During runtime, you might want to change a few settings from your server. To do that, navigate to the folder of the server you're trying to change, open config folder and make any changes you want. Then, restart your server container.
+In the `.env` file you'll find lots of parameters to change your server, but not all supported parameters have been migrated to the `.env` file.
+
+So, while playing with your files, you might want to change a few settings from your server. To do that, navigate to the folder of the server you're trying to change, open settings folder and make any changes you want. Then, restart your server container.
 
 #### Example:
 
-Let's say I want to change my server experience rate to 10x. For that, I'll open the file in `AL-Game/config/main/rates.properties` in any text editor and change the line `gameserver.rate.regular.xp = 1` to `gameserver.rate.regular.xp = 10`.
+Let's say I want to change my server experience rate to 10x. For that, I can change the parameter `XP_RATE` in `.env` file from 1 to 10.
 
 Now, all I have to do is run `docker compose restart aion49-server` to restart my server container, or `docker compose restart` if I want to restart all containers at once.
 

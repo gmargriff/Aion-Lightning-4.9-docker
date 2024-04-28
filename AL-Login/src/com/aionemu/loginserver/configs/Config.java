@@ -140,9 +140,56 @@ public class Config {
             log.info("Loading: " + network + "/database.properties");
             ConfigurableProcessor.process(DatabaseConfig.class, props);
 
+            // Overriding configs with environment variables
+            LOGIN_PORT = EnvToInt("LOGIN_PORT", LOGIN_PORT);
+            LOGIN_BIND_ADDRESS = EnvToString("LOGIN_BIND_ADDRESS", LOGIN_BIND_ADDRESS);
+            GAME_PORT = EnvToInt("GAME_PORT", GAME_PORT);
+            GAME_BIND_ADDRESS = EnvToString("GAME_BIND_ADDRESS", GAME_BIND_ADDRESS);
+            ACCOUNT_AUTO_CREATION = EnvToBoolean("ACCOUNT_AUTO_CREATION", ACCOUNT_AUTO_CREATION);
+            
+            // DB Overrides
+            DatabaseConfig.DATABASE_URL = "jdbc:mysql://" + EnvToString("DB_HOST", "localhost") + ":" + EnvToInt("DB_PORT", 3306) + "/" + EnvToString("LOGINSERVER_DATABASE", "al_server_ls") + "?useUnicode=true&characterEncoding=UTF-8";
+            DatabaseConfig.DATABASE_USER = EnvToString("DB_USER", DatabaseConfig.DATABASE_USER);
+            DatabaseConfig.DATABASE_PASSWORD = EnvToString("DB_PASS", DatabaseConfig.DATABASE_PASSWORD);
+
         } catch (Exception e) {
             log.error("Can't load loginserver configuration", e);
             throw new Error("Can't load loginserver configuration", e);
+        }
+    }
+
+    public static int EnvToInt(String ENV_NAME, int defaultValue) {
+        try {
+          String env = System.getenv(ENV_NAME);
+          return Integer.parseInt(env);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    public static String EnvToString(String ENV_NAME, String defaultValue) {
+        try {
+          String env = System.getenv(ENV_NAME);
+          if(!env.isEmpty()) {
+            return env;
+          } else {
+            return defaultValue;
+          }
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    public static boolean EnvToBoolean(String ENV_NAME, boolean defaultValue) {
+        try {
+          String env = System.getenv(ENV_NAME);
+          if(!env.isEmpty()) {
+            return env == "true";
+          } else {
+            return defaultValue;
+          }
+        } catch (Exception e) {
+            return defaultValue;
         }
     }
 }
