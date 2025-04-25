@@ -17,10 +17,10 @@ If you have no Docker Knowledge, please, open [this link](https://docs.docker.co
 You may want to clone this repository as it will be easier to keep it updated if I make any change.
 
 ```
-git clone https://github.com/gustavobarbosa-web/Aion-Lightning-4.9-docker.git
+git clone https://github.com/gmargriff/Aion-Lightning-4.9-docker.git
 ```
 
-If you'd rather not use git or just don't want to, just download the ZIP file from [this link](https://github.com/gustavobarbosa-web/Aion-Lightning-4.9-docker/archive/refs/heads/master.zip)
+If you'd rather not use git or just don't want to, just download the ZIP file from [this link](https://github.com/gmargriff/Aion-Lightning-4.9-docker/archive/refs/heads/master.zip)
 
 ### Step 2 - Setting up config files
 
